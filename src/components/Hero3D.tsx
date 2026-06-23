@@ -1,4 +1,5 @@
-import { Canvas } from '@react-three/fiber';
+import { Canvas, useFrame } from '@react-three/fiber';
+import type { RootState } from '@react-three/fiber';
 import { Physics, usePlane, useSphere, useBox } from '@react-three/cannon';
 import { Environment, ContactShadows } from '@react-three/drei';
 import { useState, useEffect } from 'react';
@@ -38,7 +39,7 @@ function Chessboard() {
 
 function MouseRepeller() {
   const [ref, api] = useSphere(() => ({ type: 'Kinematic', args: [3] }));
-  useFrame(({ mouse, viewport }) => {
+  useFrame(({ mouse, viewport }: RootState) => {
     const x = (mouse.x * viewport.width) / 2;
     const y = (mouse.y * viewport.height) / 2;
     api.position.set(x, y, 0);
