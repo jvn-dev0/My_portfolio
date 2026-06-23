@@ -7,27 +7,7 @@ import { useInView } from 'framer-motion';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const TypewriterText = ({ text, delay = 0, startTyping }: { text: string, delay?: number, startTyping: boolean }) => {
-  const [displayedText, setDisplayedText] = useState("");
 
-  useEffect(() => {
-    if (!startTyping) return;
-    
-    let i = 0;
-    const timer = setTimeout(() => {
-      const interval = setInterval(() => {
-        setDisplayedText(text.substring(0, i + 1));
-        i++;
-        if (i >= text.length) clearInterval(interval);
-      }, 30);
-      return () => clearInterval(interval);
-    }, delay);
-
-    return () => clearTimeout(timer);
-  }, [text, delay, startTyping]);
-
-  return <span>{displayedText}</span>;
-};
 
 const Projects: React.FC = () => {
   const { theme } = useTheme();
@@ -46,7 +26,7 @@ const Projects: React.FC = () => {
       gradient: 'from-blue-500 to-cyan-400'
     },
     {
-      title: 'Flux-financial-system',
+      title: 'Flux Financial System',
       status: 'Completed',
       category: 'FinTech',
       description: 'Flux Financial System is a full-stack financial management web application that automates financial data processing, reporting, and spreadsheet integration using Flask and Python.',
@@ -54,6 +34,16 @@ const Projects: React.FC = () => {
       liveDemo: 'https://flux-financial-system.onrender.com/',
       github: 'https://github.com/jvn-dev0/flux-financial-system.git',
       gradient: 'from-emerald-400 to-teal-500'
+    },
+    {
+      title: 'DriveAware AI',
+      status: 'MCA Mini Project',
+      category: 'Machine Learning | Database Systems',
+      description: 'Driver Fatigue Risk Prediction System. A database-driven machine learning project that predicts driver fatigue risk levels using historical driving behavior and trip data. Helps identify potential fatigue risks before they lead to accidents.',
+      techStack: ['Python', 'Flask', 'Scikit-learn', 'MySQL', 'SQLite', 'Logistic Regression', 'Random Forest'],
+      liveDemo: null,
+      github: null,
+      gradient: 'from-purple-500 to-pink-500'
     }
   ];
 
@@ -77,9 +67,7 @@ const Projects: React.FC = () => {
     return () => ctx.revert();
   }, []);
 
-  // For the Glimpse card typing effect
-  const glimpseRef = useRef<HTMLDivElement>(null);
-  const isGlimpseInView = useInView(glimpseRef, { amount: 0.5 });
+
 
   return (
     <section 
@@ -110,7 +98,7 @@ const Projects: React.FC = () => {
               {/* Parallax Background Glow */}
               <div className={`absolute -inset-1 bg-gradient-to-r ${project.gradient} rounded-[2.5rem] blur-xl opacity-20 group-hover:opacity-50 transition duration-1000 group-hover:duration-200`}></div>
               
-              <div className={`relative w-full h-[60vh] glass-panel rounded-[2rem] p-10 md:p-16 flex flex-col justify-between overflow-hidden border border-white/10 ${theme === 'dark' ? 'bg-[#0f0f13]/80' : 'bg-white/80'}`}>
+              <div className={`relative w-full h-auto min-h-[60vh] glass-panel rounded-[2rem] p-10 md:p-16 flex flex-col justify-between border border-white/10 ${theme === 'dark' ? 'bg-[#0f0f13]/80' : 'bg-white/80'}`}>
                 
                 {/* Decorative Parallax Circles */}
                 <div className={`absolute -top-32 -right-32 w-96 h-96 bg-gradient-to-b ${project.gradient} rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob`}></div>
@@ -159,49 +147,7 @@ const Projects: React.FC = () => {
           </div>
         ))}
 
-        {/* The Glimpse Panel */}
-        <div ref={glimpseRef} className="project-panel w-screen h-full flex items-center justify-center px-6 md:px-24">
-          <div className="w-full max-w-5xl relative group">
-            
-            <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-500 rounded-[2.5rem] blur-xl opacity-30 group-hover:opacity-60 transition duration-1000 group-hover:duration-200 animate-pulse"></div>
-            
-            <div className={`relative w-full h-[60vh] glass-panel rounded-[2rem] p-10 md:p-16 flex flex-col justify-center border border-purple-500/30 ${theme === 'dark' ? 'bg-[#0f0f13]/90' : 'bg-white/90'}`}>
-              
-              <div className="flex items-center gap-4 mb-8">
-                <FaRocket className="text-purple-400 text-4xl animate-bounce" />
-                <h3 className="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">
-                  A Glimpse into the Future
-                </h3>
-              </div>
 
-              <div className={`font-mono text-xl md:text-2xl leading-relaxed h-48 ${theme === 'dark' ? 'text-green-400' : 'text-purple-700'}`}>
-                <p className="mb-4">
-                  <TypewriterText 
-                    startTyping={isGlimpseInView} 
-                    text="> INITIALIZING NEURAL UPLINK..." 
-                    delay={0} 
-                  />
-                </p>
-                <p className="mb-4">
-                  <TypewriterText 
-                    startTyping={isGlimpseInView} 
-                    text="> ACCESSING FUTURE_PROJECTS.MD" 
-                    delay={1500} 
-                  />
-                </p>
-                <p>
-                  <TypewriterText 
-                    startTyping={isGlimpseInView} 
-                    text="> Next up: I'm currently designing an AI-driven platform that will revolutionize how developers interact with their codebases using advanced RAG and LLM agents. Stay tuned." 
-                    delay={3000} 
-                  />
-                  {isGlimpseInView && <span className="animate-pulse ml-1 inline-block w-3 h-6 bg-current translate-y-1"></span>}
-                </p>
-              </div>
-
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </section>
