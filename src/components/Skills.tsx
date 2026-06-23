@@ -5,25 +5,7 @@ import { TechSphere } from './TechSphere';
 const Skills: React.FC = () => {
   const { theme } = useTheme();
   
-  const skillCategories = [
-    {
-      title: "Frontend & UI",
-      skills: ["React", "HTML5/CSS3", "JavaScript", "Tailwind CSS", "Three.js", "GSAP"]
-    },
-    {
-      title: "Backend & Systems",
-      skills: ["Python", "Flask", "Gunicorn", "REST APIs", "Google Sheets API"]
-    },
-    {
-      title: "Data & Machine Learning",
-      skills: ["Pandas", "NumPy", "OpenCV", "MediaPipe", "Computer Vision"]
-    },
-    {
-      title: "Tools & DevOps",
-      skills: ["Git", "GitHub", "Render (Deployment)", "Vite"]
-    }
-  ];
-
+  // Skill categories were here but removed for TechSphere
   return (
     <section id="skills" className="py-24 relative z-10 bg-[var(--color-dark-bg)] transition-colors duration-500">
       <div className="max-w-7xl mx-auto px-6">

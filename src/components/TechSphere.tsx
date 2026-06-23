@@ -28,7 +28,7 @@ export const TechSphere = () => {
     { radius: 340, speed: 0.0015, items: techStack.filter(t => t.orbit === 3) }
   ];
 
-  const requestRef = useRef<number>();
+  const requestRef = useRef<number>(0);
   const [angles, setAngles] = useState([0, 0, 0]); // one angle per orbit
   const isHoveredRef = useRef(false);
 

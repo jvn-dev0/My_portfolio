@@ -1,8 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useBox } from '@react-three/cannon';
 import { Text } from '@react-three/drei';
-import { useFrame } from '@react-three/fiber';
-import { useTheme } from '../ThemeContext';
 import gsap from 'gsap';
 import * as THREE from 'three';
 

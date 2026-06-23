@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useBox } from '@react-three/cannon';
 import { Text } from '@react-three/drei';
-import * as THREE from 'three';
 
 const techWords = ['JS', 'TS', 'PY', 'JAVA', 'C++', 'HTML', 'CSS', 'REACT', 'NODE', '</>'];
 

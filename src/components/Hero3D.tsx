@@ -1,8 +1,7 @@
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { Physics, usePlane, useCylinder, useSphere, useBox } from '@react-three/cannon';
+import { Canvas } from '@react-three/fiber';
+import { Physics, usePlane, useSphere, useBox } from '@react-three/cannon';
 import { Environment, ContactShadows } from '@react-three/drei';
 import { useState, useEffect } from 'react';
-import * as THREE from 'three';
 import { ChessGeometry } from './ChessPieces';
 import type { PieceType } from './ChessPieces';
 import { FallingSentence } from './FallingText';

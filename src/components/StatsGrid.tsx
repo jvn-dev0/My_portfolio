@@ -1,4 +1,5 @@
-import React, { useRef, useState, ReactNode } from 'react';
+import React, { useRef, useState } from 'react';
+import type { ReactNode } from 'react';
 import { useTheme } from '../ThemeContext';
 import { Code2, Briefcase, MapPin, Rocket, Sparkles } from 'lucide-react';
 

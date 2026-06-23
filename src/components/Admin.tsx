@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useTheme } from '../ThemeContext';
-import { db, storage } from '../firebase';
+import { db } from '../firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
 // Note: We use ImgBB for free image hosting instead of Firebase Storage

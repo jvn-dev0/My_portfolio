@@ -164,7 +164,7 @@ const Education: React.FC = () => {
                 
                 {/* Glowing Laser Dot */}
                 <div 
-                  ref={el => dotsRef.current[index] = el}
+                  ref={el => { dotsRef.current[index] = el; }}
                   className="absolute -left-[2.3rem] md:-left-[4.3rem] top-8 w-6 h-6 rounded-full border-4 z-20"
                   style={{
                     backgroundColor: theme === 'dark' ? '#030305' : '#ffffff',
