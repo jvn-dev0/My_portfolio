@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { FaExternalLinkAlt, FaGithub, FaRocket } from 'react-icons/fa';
+import React, { useEffect, useRef } from 'react';
+import { FaExternalLinkAlt, FaGithub } from 'react-icons/fa';
 import { useTheme } from '../ThemeContext';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useInView } from 'framer-motion';
+
 
 gsap.registerPlugin(ScrollTrigger);
 
