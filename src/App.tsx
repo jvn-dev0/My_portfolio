@@ -14,7 +14,7 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Admin from './components/Admin';
 import { ThemeProvider } from './ThemeContext';
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 const Portfolio = () => {
   const pipeRef = React.useRef<HTMLDivElement>(null);
