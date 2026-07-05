@@ -53,7 +53,6 @@ const NotesPage: React.FC = () => {
                 {/* Fallback styling in case image is missing */}
                 <div className="absolute inset-0 flex items-center justify-center text-gray-500 flex-col text-center p-6">
                   <span className="text-4xl mb-4">🖼️</span>
-                  <p>Save your image as <strong>"java-inheritance.png"</strong> inside the <strong>public</strong> folder of this project.</p>
                 </div>
                 
                 <img 
