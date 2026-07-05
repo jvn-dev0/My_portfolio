@@ -11,17 +11,8 @@ const NotesPage: React.FC = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  const notes = [
-    {
-      id: 1,
-      title: "Types of Inheritance in Java",
-      category: "Java Programming",
-      date: "July 2026",
-      // Since we don't have the image file hosted yet, we use a placeholder 
-      // or direct the user to upload it to their public folder.
-      imageUrl: "/java-inheritance.png", 
-      description: "A detailed visual guide on single, multilevel, hierarchical, multiple (via interfaces), and hybrid inheritance in Java."
-    }
+  const notes: any[] = [
+    // Notes can be added here in the future
   ];
 
   return (
