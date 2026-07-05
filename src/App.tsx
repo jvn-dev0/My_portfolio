@@ -13,6 +13,7 @@ import Education from './components/Education';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Admin from './components/Admin';
+import NotesPage from './components/NotesPage';
 import { ThemeProvider } from './ThemeContext';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
@@ -89,6 +90,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Portfolio />} />
             <Route path="/admin" element={<Admin />} />
+            <Route path="/notes" element={<NotesPage />} />
           </Routes>
         </div>
       </Router>

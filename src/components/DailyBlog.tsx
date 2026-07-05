@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { collection, onSnapshot, query, orderBy } from 'firebase/firestore';
+import { Link } from 'react-router-dom';
 import { db } from '../firebase';
 
 interface BlogPost {
@@ -30,11 +31,16 @@ const DailyBlog: React.FC = () => {
 
   return (
     <section id="blog" className="py-24 relative z-10 bg-[var(--color-dark-bg)] transition-colors duration-500 overflow-hidden">
-      <div className="reveal max-w-7xl mx-auto px-6 mb-12">
-        <h2 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
-          Daily Log
-        </h2>
-        <p className="text-[var(--text-secondary)] mt-4 text-lg">What I've been building lately.</p>
+      <div className="reveal max-w-7xl mx-auto px-6 mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div>
+          <h2 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
+            Daily Log
+          </h2>
+          <p className="text-[var(--text-secondary)] mt-4 text-lg">What I've been building lately.</p>
+        </div>
+        <Link to="/notes" className="px-6 py-3 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-bold transition-all shadow-[0_0_20px_rgba(59,130,246,0.3)] hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] self-start md:self-auto flex items-center gap-2">
+          View Technical Notes <span>&rarr;</span>
+        </Link>
       </div>
 
       {/* Horizontal scroll container */}

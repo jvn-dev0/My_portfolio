@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTheme } from '../ThemeContext';
 import { Moon, Sun } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Navbar: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
@@ -19,7 +20,8 @@ const Navbar: React.FC = () => {
           <a href="#skills" className="text-lg font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">Skills</a>
           <a href="#projects" className="text-lg font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">Projects</a>
           <a href="#education" className="text-lg font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">Academic Journey</a>
-          <a href="#blog" className="text-lg font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">Blog</a>
+          <a href="#blog" className="text-lg font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">Daily Logs</a>
+          <Link to="/notes" className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 hover:opacity-80 transition-opacity">My Notes</Link>
           
           <button 
             onClick={toggleTheme} 
