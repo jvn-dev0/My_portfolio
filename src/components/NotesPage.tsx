@@ -1,19 +1,44 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTheme } from '../ThemeContext';
-import { ArrowLeft, ZoomIn } from 'lucide-react';
+import { ArrowLeft, ZoomIn, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { collection, onSnapshot, query, orderBy } from 'firebase/firestore';
+import { db } from '../firebase';
+
+interface TechnicalNote {
+  id: string;
+  title: string;
+  category: string;
+  description: string;
+  date: string;
+  image: string;
+}
 
 const NotesPage: React.FC = () => {
   const { theme } = useTheme();
+  const [notes, setNotes] = useState<TechnicalNote[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   // Scroll to top when page loads
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const notes: any[] = [
-    // Notes can be added here in the future
-  ];
+  // Fetch notes from Firebase
+  useEffect(() => {
+    const q = query(collection(db, "technicalNotes"), orderBy("timestamp", "desc"));
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const fetchedNotes: TechnicalNote[] = [];
+      querySnapshot.forEach((doc) => {
+        fetchedNotes.push({ id: doc.id, ...doc.data() } as TechnicalNote);
+      });
+      setNotes(fetchedNotes);
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   return (
     <div className={`min-h-screen pt-24 pb-20 ${theme === 'dark' ? 'bg-[#0a0a0c] text-white' : 'bg-gray-50 text-gray-900'} transition-colors duration-500`}>
@@ -35,19 +60,31 @@ const NotesPage: React.FC = () => {
         </div>
 
         {/* Masonry/Grid Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {notes.map((note) => (
-            <div key={note.id} className={`group relative rounded-[2rem] overflow-hidden border transition-all duration-500 hover:-translate-y-2 ${theme === 'dark' ? 'bg-[#121217] border-white/10 hover:border-blue-500/50 hover:shadow-[0_0_30px_rgba(59,130,246,0.15)]' : 'bg-white border-gray-200 hover:border-blue-500/30 hover:shadow-xl'}`}>
-              
-              {/* Image Container */}
-              <div className="relative w-full aspect-[4/5] bg-gray-900 overflow-hidden cursor-pointer">
+        {loading ? (
+          <div className="w-full text-center py-20 text-gray-500 font-mono animate-pulse">
+            &gt; F E T C H I N G   N O T E S . . .
+          </div>
+        ) : notes.length === 0 ? (
+          <div className="w-full text-center py-20 text-gray-500 font-mono">
+            &gt; N O   N O T E S   Y E T .
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {notes.map((note) => (
+              <div key={note.id} className={`group relative rounded-[2rem] overflow-hidden border transition-all duration-500 hover:-translate-y-2 ${theme === 'dark' ? 'bg-[#121217] border-white/10 hover:border-blue-500/50 hover:shadow-[0_0_30px_rgba(59,130,246,0.15)]' : 'bg-white border-gray-200 hover:border-blue-500/30 hover:shadow-xl'}`}>
+                
+                {/* Image Container */}
+                <div 
+                  className="relative w-full aspect-[4/5] bg-gray-900 overflow-hidden cursor-pointer"
+                  onClick={() => setSelectedImage(note.image)}
+                >
                 {/* Fallback styling in case image is missing */}
                 <div className="absolute inset-0 flex items-center justify-center text-gray-500 flex-col text-center p-6">
                   <span className="text-4xl mb-4">🖼️</span>
                 </div>
                 
                 <img 
-                  src={note.imageUrl} 
+                  src={note.image} 
                   alt={note.title}
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 z-10"
                   onError={(e) => {
@@ -88,6 +125,28 @@ const NotesPage: React.FC = () => {
             </div>
           ))}
         </div>
+        )}
+
+        {/* Fullscreen Lightbox Overlay */}
+        {selectedImage && (
+          <div 
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-md p-4 md:p-10"
+            onClick={() => setSelectedImage(null)}
+          >
+            <button 
+              className="absolute top-6 right-6 md:top-10 md:right-10 text-white/70 hover:text-white bg-black/50 hover:bg-white/10 p-3 rounded-full backdrop-blur-sm transition-all"
+              onClick={() => setSelectedImage(null)}
+            >
+              <X size={32} />
+            </button>
+            <img 
+              src={selectedImage} 
+              alt="Enlarged note" 
+              className="max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl"
+              onClick={(e) => e.stopPropagation()} 
+            />
+          </div>
+        )}
 
       </div>
     </div>

@@ -15,7 +15,9 @@ const Admin = () => {
   const [error, setError] = useState("");
 
   // Post State
+  const [activeTab, setActiveTab] = useState<'daily' | 'note'>('daily');
   const [title, setTitle] = useState("");
+  const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [uploadStatus, setUploadStatus] = useState<string>("");
@@ -63,20 +65,28 @@ const Admin = () => {
 
       // 2. Save Data to Firestore
       setUploadStatus("Saving to Firestore Database...");
-      await addDoc(collection(db, "dailyLogs"), {
+      const collectionName = activeTab === 'daily' ? "dailyLogs" : "technicalNotes";
+      const payload: any = {
         title,
         description,
         image: downloadURL,
         date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
         timestamp: serverTimestamp()
-      });
+      };
+      
+      if (activeTab === 'note') {
+        payload.category = category || "General Note";
+      }
+
+      await addDoc(collection(db, collectionName), payload);
 
       // Reset form
       setTitle("");
       setDescription("");
+      setCategory("");
       setImageFile(null);
       setUploadStatus("");
-      alert("Successfully published to your portfolio!");
+      alert(`Successfully published to ${activeTab === 'daily' ? 'Daily Logs' : 'Technical Notes'}!`);
     } catch (err: any) {
       console.error("Upload Error: ", err);
       setError("Failed to publish: " + err.message);
@@ -143,22 +153,53 @@ const Admin = () => {
         </div>
 
         <div className={`p-8 rounded-2xl glass-panel border ${theme === 'dark' ? 'border-white/10 bg-[#0a0a0f]' : 'border-black/10 bg-white'}`}>
-          <h2 className="text-2xl font-bold mb-8">Post a Daily Log</h2>
+          <div className="flex gap-4 mb-8 border-b border-gray-500/30 pb-4">
+            <button 
+              onClick={() => setActiveTab('daily')}
+              className={`text-xl font-bold transition-colors ${activeTab === 'daily' ? 'text-blue-500' : 'text-gray-500 hover:text-gray-300'}`}
+            >
+              Post Daily Log
+            </button>
+            <button 
+              onClick={() => setActiveTab('note')}
+              className={`text-xl font-bold transition-colors ${activeTab === 'note' ? 'text-blue-500' : 'text-gray-500 hover:text-gray-300'}`}
+            >
+              Upload Technical Note
+            </button>
+          </div>
+          
+          <h2 className="text-2xl font-bold mb-8">
+            {activeTab === 'daily' ? "Post a Daily Log" : "Upload a Technical Note"}
+          </h2>
           
           {error && <div className="bg-red-500/20 text-red-500 p-3 rounded-lg mb-6 text-sm">{error}</div>}
 
           <form onSubmit={handlePostSubmit} className="space-y-6">
             <div>
-              <label className="block text-sm font-bold mb-2">Project / Task Title</label>
+              <label className="block text-sm font-bold mb-2">Title</label>
               <input 
                 type="text" 
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                placeholder="e.g., Built an AI chatbot"
+                placeholder={activeTab === 'daily' ? "e.g., Built an AI chatbot" : "e.g., Types of Inheritance in Java"}
                 className="w-full p-3 rounded-lg bg-black/20 border border-white/10 text-white focus:outline-none focus:border-blue-500"
                 required
               />
             </div>
+
+            {activeTab === 'note' && (
+              <div>
+                <label className="block text-sm font-bold mb-2">Category</label>
+                <input 
+                  type="text" 
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                  placeholder="e.g., Java Programming"
+                  className="w-full p-3 rounded-lg bg-black/20 border border-white/10 text-white focus:outline-none focus:border-blue-500"
+                  required
+                />
+              </div>
+            )}
             
             <div>
               <label className="block text-sm font-bold mb-2">Description</label>
